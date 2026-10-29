@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout GitHub') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/YOUR-USERNAME/devops-java-app.git'
+                    url: 'https://github.com/GauravBorle04/devops-java-app.git'
             }
         }
 
