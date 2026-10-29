@@ -4,27 +4,30 @@ pipeline {
     stages {
         stage('Checkout GitHub') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/GauravBorle04/devops-java-app.git'
+                echo 'Repository checked out by Jenkins SCM'
             }
         }
 
         stage('Build Java') {
             steps {
-                sh 'mvn clean package'
+                dir('devops-java-app') {
+                    sh 'mvn clean package'
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t devops-java-app:v1 .'
+                dir('devops-java-app') {
+                    sh 'docker build -t devops-java-app:v1 .'
+                }
             }
         }
 
         stage('Ansible Health Check') {
             steps {
-                sh 'ansible local -m ping'
-                sh 'ansible local -m command -a "hostname"'
+                sh 'ansible localhost -m ping -c local'
+                sh 'ansible localhost -m command -a "hostname" -c local'
             }
         }
     }
